@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import ca.vanzeben.game.entities.Player;
+import ca.vanzeben.game.entities.PlayerMP;
 import ca.vanzeben.game.gfx.Screen;
 import ca.vanzeben.game.gfx.SpriteSheet;
 import ca.vanzeben.game.level.Level;
@@ -28,7 +29,7 @@ public class Game extends Canvas implements Runnable {
     public static final int SCALE = 3;
     public static final String NAME = "Game";
 
-    private JFrame frame;
+    public JFrame frame;
 
     public boolean running = false;
     public int tickCount = 0;
@@ -79,11 +80,13 @@ public class Game extends Canvas implements Runnable {
         screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
         input = new InputHandler(this);
         level = new Level("/levels/water_test_level.png");
-        // player = new Player(level, 0, 0, input,
-        // JOptionPane.showInputDialog(this, "Please enter a username"));
-        // level.addEntity(player);
-        // socketClient.sendData("ping".getBytes());
-        Packet00Login loginPacket = new Packet00Login(JOptionPane.showInputDialog(this, "Please enter a username"));
+        player = new PlayerMP(level, 100, 100, input, JOptionPane.showInputDialog(this, "Please enter a username"),
+                null, -1);
+        level.addEntity(player);
+        Packet00Login loginPacket = new Packet00Login(player.getUsername());
+        if (socketServer != null) {
+            socketServer.addConnection((PlayerMP) player, loginPacket);
+        }
         loginPacket.writeData(socketClient);
     }
 

@@ -8,6 +8,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import ca.vanzeben.game.Game;
+import ca.vanzeben.game.entities.PlayerMP;
+import ca.vanzeben.game.net.packets.Packet;
+import ca.vanzeben.game.net.packets.Packet00Login;
+import ca.vanzeben.game.net.packets.Packet.PacketTypes;
 
 public class GameClient extends Thread {
 
@@ -36,8 +40,28 @@ public class GameClient extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String message = new String(packet.getData());
-            System.out.println("SERVER > " + message);
+
+            this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+        }
+    }
+
+    private void parsePacket(byte[] data, InetAddress address, int port) {
+        String message = new String(data).trim();
+        PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
+        Packet packet = null;
+        switch (type) {
+        default:
+        case INVALID:
+            break;
+        case LOGIN:
+            packet = new Packet00Login(data);
+            System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+                    + ((Packet00Login) packet).getUsername() + " has joined the game...");
+            PlayerMP player = new PlayerMP(game.level, 100, 100, ((Packet00Login) packet).getUsername(), address, port);
+            game.level.addEntity(player);
+            break;
+        case DISCONNECT:
+            break;
         }
     }
 
