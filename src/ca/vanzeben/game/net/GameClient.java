@@ -10,8 +10,9 @@ import java.net.UnknownHostException;
 import ca.vanzeben.game.Game;
 import ca.vanzeben.game.entities.PlayerMP;
 import ca.vanzeben.game.net.packets.Packet;
-import ca.vanzeben.game.net.packets.Packet00Login;
 import ca.vanzeben.game.net.packets.Packet.PacketTypes;
+import ca.vanzeben.game.net.packets.Packet00Login;
+import ca.vanzeben.game.net.packets.Packet01Disconnect;
 
 public class GameClient extends Thread {
 
@@ -40,7 +41,6 @@ public class GameClient extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
         }
     }
@@ -61,6 +61,10 @@ public class GameClient extends Thread {
             game.level.addEntity(player);
             break;
         case DISCONNECT:
+            packet = new Packet01Disconnect(data);
+            System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+                    + ((Packet01Disconnect) packet).getUsername() + " has left the world...");
+            game.level.removePlayerMP(((Packet01Disconnect) packet).getUsername());
             break;
         }
     }

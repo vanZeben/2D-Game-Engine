@@ -9,6 +9,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import ca.vanzeben.game.entities.Entity;
+import ca.vanzeben.game.entities.PlayerMP;
 import ca.vanzeben.game.gfx.Screen;
 import ca.vanzeben.game.level.tiles.Tile;
 
@@ -59,6 +60,7 @@ public class Level {
         }
     }
 
+    @SuppressWarnings("unused")
     private void saveLevelToFile() {
         try {
             ImageIO.write(image, "png", new File(Level.class.getResource(this.imagePath).getFile()));
@@ -130,6 +132,17 @@ public class Level {
 
     public void addEntity(Entity entity) {
         this.entities.add(entity);
+    }
+
+    public void removePlayerMP(String username) {
+        int index = 0;
+        for (Entity e : entities) {
+            if (e instanceof PlayerMP && ((PlayerMP) e).getUsername().equals(username)) {
+                break;
+            }
+            index++;
+        }
+        this.entities.remove(index);
     }
 
 }

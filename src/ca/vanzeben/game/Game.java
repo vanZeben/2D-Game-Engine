@@ -40,11 +40,12 @@ public class Game extends Canvas implements Runnable {
 
     private Screen screen;
     public InputHandler input;
+    public WindowHandler windowHandler;
     public Level level;
     public Player player;
 
-    private GameClient socketClient;
-    private GameServer socketServer;
+    public GameClient socketClient;
+    public GameServer socketServer;
 
     public Game() {
         setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -79,6 +80,7 @@ public class Game extends Canvas implements Runnable {
         }
         screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
         input = new InputHandler(this);
+        windowHandler = new WindowHandler(this);
         level = new Level("/levels/water_test_level.png");
         player = new PlayerMP(level, 100, 100, input, JOptionPane.showInputDialog(this, "Please enter a username"),
                 null, -1);
