@@ -37,8 +37,8 @@ public class Level {
     private void loadLevelFromFile() {
         try {
             this.image = ImageIO.read(Level.class.getResource(this.imagePath));
-            this.width = image.getWidth();
-            this.height = image.getHeight();
+            this.width = this.image.getWidth();
+            this.height = this.image.getHeight();
             tiles = new byte[width * height];
             this.loadTiles();
         } catch (IOException e) {

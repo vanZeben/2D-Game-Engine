@@ -120,11 +120,14 @@ public class GameServer extends Thread {
     }
 
     public void sendData(byte[] data, InetAddress ipAddress, int port) {
-        DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
-        try {
-            this.socket.send(packet);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!game.isApplet) {
+
+            DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
+            try {
+                this.socket.send(packet);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
