@@ -28,6 +28,8 @@ public class Game extends Canvas implements Runnable {
     public static final int SCALE = 3;
     public static final String NAME = "Game";
     public static final Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+    public static Game game;
+
     public JFrame frame;
 
     private Thread thread;
@@ -52,6 +54,7 @@ public class Game extends Canvas implements Runnable {
     public boolean isApplet = false;
 
     public void init() {
+        game = this;
         int index = 0;
         for (int r = 0; r < 6; r++) {
             for (int g = 0; g < 6; g++) {
@@ -71,7 +74,7 @@ public class Game extends Canvas implements Runnable {
                 null, -1);
         level.addEntity(player);
         if (!isApplet) {
-            Packet00Login loginPacket = new Packet00Login(player.getUsername());
+            Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
             if (socketServer != null) {
                 socketServer.addConnection((PlayerMP) player, loginPacket);
             }

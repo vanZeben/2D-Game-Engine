@@ -1,10 +1,12 @@
 package ca.vanzeben.game.entities;
 
+import ca.vanzeben.game.Game;
 import ca.vanzeben.game.InputHandler;
 import ca.vanzeben.game.gfx.Colours;
 import ca.vanzeben.game.gfx.Font;
 import ca.vanzeben.game.gfx.Screen;
 import ca.vanzeben.game.level.Level;
+import ca.vanzeben.game.net.packets.Packet02Move;
 
 public class Player extends Mob {
 
@@ -41,6 +43,9 @@ public class Player extends Mob {
         if (xa != 0 || ya != 0) {
             move(xa, ya);
             isMoving = true;
+
+            Packet02Move packet = new Packet02Move(this.getUsername(), this.x, this.y);
+            packet.writeData(Game.game.socketClient);
         } else {
             isMoving = false;
         }
