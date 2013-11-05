@@ -89,7 +89,7 @@ public class GameServer extends Thread {
 
                 // relay to the new player that the currently connect player
                 // exists
-                packetCurrentPlayer = new Packet00Login(p.getUsername(), p.x, p.y);
+                Packet00Login packetCurrentPlayer = new Packet00Login(p.getUsername(), p.x, p.y);
                 sendData(packetCurrentPlayer.getData(), player.ipAddress, player.port);
             }
         }
