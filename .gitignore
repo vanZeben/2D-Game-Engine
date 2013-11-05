@@ -1,0 +1,33 @@
+# Logs and databases #
+######################
+*.log
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Editor Files #
+################
+*~
+*.swp
+
+# Gradle Files #
+################
+
+# Build output directies
+target/
+build/
+
+
+# Eclipse specific files/directories
+.classpath
+.project
+.settings
+.metadata
+bin/
+
+# NetBeans specific files/directories
+.nbattrs
