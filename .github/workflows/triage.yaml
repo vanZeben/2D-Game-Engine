@@ -1,0 +1,14 @@
+name: Triage
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: vanZeben/project-triage@v1
+      with:
+        token: ${{ secrets.GH_TOKEN }}
